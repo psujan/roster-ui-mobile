@@ -12,57 +12,39 @@ import Icon from "react-native-remix-icon";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import PressableBack from "../components/PressableBack";
 import UserProfile from "../components/partials/UserProfile";
+import AppButton from "../components/buttons/AppButton";
 
-export default function RosterScreen({ navigation }) {
+export default function AvailabilityScreen({ navigation }) {
   const roster = [
     {
+      id: 1,
       day: "Mon",
-      time: "6am - 2pm",
-      workplaceType: "Kitchen",
-      hrs: 8,
+      time: ["6am - 2pm", "6pm-2pm"],
     },
     {
+      id: 2,
       day: "Tue",
-      time: "9am - 5pm",
-      workplaceType: "Office",
-      hrs: 8,
+      time: ["6am - 2pm"],
     },
     {
-      day: "Wed",
-      time: "10am - 6pm",
-      workplaceType: "Warehouse",
-      hrs: 8,
+      id: 3,
+      day: "Tue",
+      time: ["6am - 2pm", "3pm-6pm"],
     },
     {
-      day: "Thu",
-      time: "7am - 3pm",
-      workplaceType: "Retail",
-      hrs: 8,
-    },
-    {
-      day: "Fri",
-      time: "12pm - 8pm",
-      workplaceType: "Hospital",
-      hrs: 8,
-    },
-    {
-      day: "Sat",
-      time: "2pm - 10pm",
-      workplaceType: "Hotel",
-      hrs: 8,
-    },
-    {
+      id: 4,
       day: "Sun",
-      time: "2pm - 10pm",
-      workplaceType: "Hotel",
-      hrs: 8,
+      time: ["6am - 2pm", "8pm-12pm"],
     },
   ];
 
-  const highlights = [
-    { id: "1", text: "3 Issues have been reported" },
-    { id: "2", text: "You have been added to the event team" },
-  ];
+  const renderTime = (item) => {
+    <View>
+      {item?.time.map((row) => (
+        <Text>{{ row }}</Text>
+      ))}
+    </View>;
+  };
 
   return (
     <SafeAreaProvider>
@@ -74,7 +56,7 @@ export default function RosterScreen({ navigation }) {
             icon="arrow-left-line"
             navigation={navigation}
           ></PressableBack>
-          <Text style={styles.headerText}>Roster</Text>
+          <Text style={styles.headerText}>My Availability</Text>
           <Text></Text>
         </View>
 
@@ -84,13 +66,16 @@ export default function RosterScreen({ navigation }) {
           {/* Workspace */}
           <View style={styles.appSection}>
             <View style={styles.appSectionHeader}>
-              <Text style={styles.sectionTitle}>MyShift</Text>
-              <Text style={styles.rosterDate}>01 Jan - 08 Jan</Text>
+              <View>
+                <Text style={styles.sectionTitle}>My Availability</Text>
+              </View>
+              <Text style={styles.rosterDate}>4 days a week</Text>
             </View>
             <FlatList
+              scrollEnabled={false}
               data={roster}
               numColumns={1}
-              keyExtractor={(item) => item.day}
+              keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
                 <Pressable
                   style={({ pressed }) => [
@@ -99,22 +84,24 @@ export default function RosterScreen({ navigation }) {
                     },
                     styles.rosterWrap,
                   ]}
-                  onPress={navigation.navigate("Roster Detail")}
+                  //   onPress={() => navigation.navigate("Roster-Detail")}
                 >
-                  <View style={styles.rosterCard}>
+                  <View style={styles.availabilityCard}>
                     <View style={styles.rosterInfo}>
                       <Text style={styles.rosterDay}>{item.day}</Text>
-                      <Text style={styles.rosterHr}>
-                        {item.workplaceType} | {item.hrs} hrs
-                      </Text>
                     </View>
                     <View>
-                      <Icon name="arrow-right-line" size={18} color="#666" />
+                      {item.time.map((d) => (
+                        <Text key={d}>{d}</Text>
+                      ))}
                     </View>
                   </View>
                 </Pressable>
               )}
             />
+            <View style={{ marginVertical: 10 }}>
+              <AppButton title="Update My Timing" />
+            </View>
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -143,13 +130,17 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 5,
   },
-  rosterCard: {
+  availabilityCard: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    height: 40,
+    paddingHorizontal: 4,
   },
   rosterDay: {
     fontSize: 14,
+    color: "#666",
+    fontWeight: 500,
   },
   rosterHr: {
     color: "#666",
