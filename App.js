@@ -17,7 +17,7 @@ export default function App() {
         <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}}/>
         <Stack.Screen name="Profile" component={ProfileScreen} />
         <Stack.Screen name="Roster" component={RosterScreen} options={{headerShown: false}} />
-        <Stack.Screen name="Roster Detail" component={RosterDetailScreen} options={{headerShown: false}} />
+        <Stack.Screen name="Roster-Detail" component={RosterDetailScreen} options={{headerShown: false}} />
         <Stack.Screen name="Leave" component={ProfileScreen} />
         <Stack.Screen name="ApplyLeave" component={ProfileScreen} />
         <Stack.Screen name="Availability" component={ProfileScreen} />

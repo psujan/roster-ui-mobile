@@ -26,7 +26,7 @@ export default function HomeScreen({ navigation }) {
     },
     { id: "4", name: "History", icon: "history-line", route: "History" },
     { id: "5", name: "Issues", icon: "ticket-line", route: "Issues" },
-    { id: "6", name: "Leave", icon: "leaf-line", route: "Roster Detail" },
+    { id: "6", name: "Leave", icon: "leaf-line", route: "Roster-Detail" },
   ];
 
   const highlights = [
@@ -85,8 +85,12 @@ export default function HomeScreen({ navigation }) {
           <View style={styles.appSection}>
             <Text style={styles.sectionTitle}>Workspace</Text>
             <FlatList
+              scrollEnabled={false}
+              horizontal={false}
               data={workspaceItems}
               numColumns={3}
+              ListHeaderComponent={()=><View></View>}
+              ListFooterComponent={()=><View></View>}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
                 <Pressable

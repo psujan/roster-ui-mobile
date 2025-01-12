@@ -16,49 +16,42 @@ import UserProfile from "../components/partials/UserProfile";
 export default function RosterScreen({ navigation }) {
   const roster = [
     {
-      id: 1,
       day: "Mon",
       time: "6am - 2pm",
       workplaceType: "Kitchen",
       hrs: 8,
     },
     {
-      id: 2,
       day: "Tue",
       time: "9am - 5pm",
       workplaceType: "Office",
       hrs: 8,
     },
     {
-      id: 3,
       day: "Wed",
       time: "10am - 6pm",
       workplaceType: "Warehouse",
       hrs: 8,
     },
     {
-      id: 4,
       day: "Thu",
       time: "7am - 3pm",
       workplaceType: "Retail",
       hrs: 8,
     },
     {
-      id: 5,
       day: "Fri",
       time: "12pm - 8pm",
       workplaceType: "Hospital",
       hrs: 8,
     },
     {
-      id: 6,
       day: "Sat",
       time: "2pm - 10pm",
       workplaceType: "Hotel",
       hrs: 8,
     },
     {
-      id: 7,
       day: "Sun",
       time: "2pm - 10pm",
       workplaceType: "Hotel",
@@ -95,10 +88,9 @@ export default function RosterScreen({ navigation }) {
               <Text style={styles.rosterDate}>01 Jan - 08 Jan</Text>
             </View>
             <FlatList
-              scrollEnabled={false}
               data={roster}
               numColumns={1}
-              keyExtractor={(item) => item.id}
+              keyExtractor={(item) => item.day}
               renderItem={({ item }) => (
                 <Pressable
                   style={({ pressed }) => [
@@ -107,7 +99,7 @@ export default function RosterScreen({ navigation }) {
                     },
                     styles.rosterWrap,
                   ]}
-                  onPress={() => navigation.navigate("Roster-Detail")}
+                  onPress={navigation.navigate("Roster Detail")}
                 >
                   <View style={styles.rosterCard}>
                     <View style={styles.rosterInfo}>
