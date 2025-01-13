@@ -102,7 +102,7 @@ export default function HomeScreen({ navigation }) {
                     styles.workspaceItem,
                   ]}
                 >
-                  <Icon name={item.icon} size={32} color="black" />
+                  <Icon name={item.icon} size={22} color="#22789A" />
                   <Text style={styles.workspaceItemText}>{item.name}</Text>
                 </Pressable>
               )}

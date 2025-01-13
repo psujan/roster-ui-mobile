@@ -21,7 +21,7 @@ const AppButton = ({ onPress, title, btnStyles }) => (
 const styles = StyleSheet.create({
   // ...
   appButtonContainer: {
-    elevation: 1,
+    //elevation: 1,
     //backgroundColor: "#22789A",
     color: "#fff",
     borderRadius: 4,
