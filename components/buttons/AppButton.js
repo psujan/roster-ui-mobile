@@ -2,7 +2,7 @@ import { Text, Pressable } from "react-native";
 import { StyleSheet } from "react-native";
 import TextPara from "../text/TextPara";
 
-const AppButton = ({ onPress, title }) => (
+const AppButton = ({ onPress, title, btnStyles }) => (
   <Pressable
     onPress={onPress}
     style={({ pressed }) => [
@@ -10,6 +10,8 @@ const AppButton = ({ onPress, title }) => (
         backgroundColor: pressed ? "#005678" : "#22789A",
       },
       styles.appButtonContainer,
+      styles.btnStyles
+
     ]}
   >
     <Text style={styles.appButtonText}>{title}</Text>

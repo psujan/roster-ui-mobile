@@ -3,18 +3,22 @@ import {
   View,
   Text,
   StyleSheet,
-  TouchableOpacity,
   FlatList,
   Pressable,
   ScrollView,
+  TextInput,
 } from "react-native";
-import Icon from "react-native-remix-icon";
+import Modal from "react-native-modal";
+// import SelectDropdown from "react-native-select-dropdown";
+// import Icon from "react-native-remix-icon";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import PressableBack from "../components/PressableBack";
 import UserProfile from "../components/partials/UserProfile";
 import AppButton from "../components/buttons/AppButton";
+import { useState } from "react";
 
 export default function AvailabilityScreen({ navigation }) {
+  const [modalVisible, setModalVisible] = useState(false);
   const roster = [
     {
       id: 1,
@@ -37,14 +41,6 @@ export default function AvailabilityScreen({ navigation }) {
       time: ["6am - 2pm", "8pm-12pm"],
     },
   ];
-
-  const renderTime = (item) => {
-    <View>
-      {item?.time.map((row) => (
-        <Text>{{ row }}</Text>
-      ))}
-    </View>;
-  };
 
   return (
     <SafeAreaProvider>
@@ -100,9 +96,72 @@ export default function AvailabilityScreen({ navigation }) {
               )}
             />
             <View style={{ marginVertical: 10 }}>
-              <AppButton title="Update My Timing" />
+              <AppButton
+                title="Update My Timing"
+                onPress={() => setModalVisible(true)}
+              />
             </View>
           </View>
+          <Modal isVisible={modalVisible}>
+            <View style={styles.modalWrap}>
+            <View
+                style={{ flexDirection: "row", gap: 10, marginVertical: 10 }}
+              >
+                <Text style={{minWidth:'48%'}}>Day</Text>
+                <Text>Time</Text>
+              </View>
+              <View
+                style={{ flexDirection: "row", gap: 10, marginVertical: 10 }}
+              >
+                <TextInput placeholder="Sun" style={styles.input} />
+                <TextInput placeholder="6am- 2pm" style={styles.input} />
+              </View>
+              <View
+                style={{ flexDirection: "row", gap: 10, marginVertical: 10 }}
+              >
+                <TextInput placeholder="Mon" style={styles.input} />
+                <TextInput placeholder="6am- 2pm" style={styles.input} />
+              </View>
+              <View
+                style={{ flexDirection: "row", gap: 10, marginVertical: 10 }}
+              >
+                <TextInput placeholder="Tue" style={styles.input} />
+                <TextInput placeholder="6am- 2pm" style={styles.input} />
+              </View>
+              <View
+                style={{ flexDirection: "row", gap: 10, marginVertical: 10 }}
+              >
+                <TextInput placeholder="Sat" style={styles.input} />
+                <TextInput placeholder="6am- 2pm" style={styles.input} />
+              </View>
+              <View
+                style={{ flexDirection: "row", gap: 10, marginVertical: 10 }}
+              >
+                <Pressable
+                  onPress={()=>setModalVisible(false)}
+                  style={({ pressed }) => [
+                    {
+                      backgroundColor: pressed ? "#f5f5f5" : "#f4f4f4",
+                    },
+                    styles.appButtonContainer,
+                  ]}
+                >
+                  <Text style={[styles.appButtonText , {color:'#000'}]}>Cancel</Text>
+                </Pressable>
+                <Pressable
+                  onPress={() => setModalVisible(false)}
+                  style={({ pressed }) => [
+                    {
+                      backgroundColor: pressed ? "#005678" : "#22789A",
+                    },
+                    styles.appButtonContainer,
+                  ]}
+                >
+                  <Text style={styles.appButtonText}>Update</Text>
+                </Pressable>
+              </View>
+            </View>
+          </Modal>
         </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -190,5 +249,45 @@ const styles = StyleSheet.create({
   appSection: {
     marginTop: 10,
     marginBottom: 10,
+  },
+  modalWrap: {
+    backgroundColor: "#fff",
+    paddingVertical: 30,
+    paddingHorizontal: 20,
+    borderRadius: 6,
+  },
+  input: {
+    fontSize: 13,
+    display: "flex",
+    justifyContent: "center",
+    borderColor: "#f1f1f1",
+    paddingVertical: 10,
+    color: "#666",
+    height: 38,
+    alignItems: "center",
+    marginBottom: 15,
+    borderRadius: 4,
+    backgroundColor: "#F1F1F1",
+    minWidth: "48%",
+  },
+  cancelBtn:{
+    color:'#000'
+  },
+  appButtonContainer: {
+    //elevation: 1,
+    //backgroundColor: "#22789A",
+    color: "#fff",
+    borderRadius: 4,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    minWidth:'48%'
+  },
+  appButtonText: {
+    fontSize: 16,
+    color: "#fff",
+    fontWeight: "medium",
+    alignSelf: "center",
+    fontFamily: "Inter",
+    //   textTransform: "uppercase"
   },
 });
