@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   appButtonText: {
     fontSize: 16,
     color: "#fff",
-    fontWeight: "bold",
+    fontWeight: 600,
     alignSelf: "center",
     fontFamily: "Inter",
     //   textTransform: "uppercase"
