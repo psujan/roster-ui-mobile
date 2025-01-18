@@ -9,6 +9,7 @@ import RosterDetailScreen from "./screens/RosterDetailScreen";
 import AvailabilityScreen from "./screens/AvailabilityScreen";
 import RosterHistoryScreen from "./screens/RosterHistoryScreen";
 import LeaveScreen from "./screens/LeaveScreen";
+import RosterIssueScreen from "./screens/RosterIssueScreen";
 
 const Stack = createStackNavigator();
 
@@ -63,7 +64,7 @@ export default function App() {
         />
         <Stack.Screen
           name="Issues"
-          component={ProfileScreen}
+          component={RosterIssueScreen}
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
