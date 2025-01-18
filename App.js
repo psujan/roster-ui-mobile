@@ -8,6 +8,7 @@ import RosterScreen from "./screens/RosterScreen";
 import RosterDetailScreen from "./screens/RosterDetailScreen";
 import AvailabilityScreen from "./screens/AvailabilityScreen";
 import RosterHistoryScreen from "./screens/RosterHistoryScreen";
+import LeaveScreen from "./screens/LeaveScreen";
 
 const Stack = createStackNavigator();
 
@@ -42,7 +43,7 @@ export default function App() {
         />
         <Stack.Screen
           name="Leave"
-          component={ProfileScreen}
+          component={LeaveScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen

@@ -26,7 +26,7 @@ export default function HomeScreen({ navigation }) {
     },
     { id: "4", name: "History", icon: "history-line", route: "History" },
     { id: "5", name: "Issues", icon: "ticket-line", route: "Issues" },
-    { id: "6", name: "Leave", icon: "leaf-line", route: "Roster-Detail" },
+    { id: "6", name: "Leave", icon: "leaf-line", route: "Leave" },
   ];
 
   const highlights = [
