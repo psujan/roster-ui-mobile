@@ -7,13 +7,14 @@ import ProfileScreen from "./screens/ProfileScreen";
 import RosterScreen from "./screens/RosterScreen";
 import RosterDetailScreen from "./screens/RosterDetailScreen";
 import AvailabilityScreen from "./screens/AvailabilityScreen";
+import RosterHistoryScreen from "./screens/RosterHistoryScreen";
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Login">
+      <Stack.Navigator initialRouteName="Login" screenOptions={{headerShown: false}}>
         <Stack.Screen
           name="Login"
           component={LoginScreen}
@@ -56,7 +57,7 @@ export default function App() {
         />
         <Stack.Screen
           name="History"
-          component={ProfileScreen}
+          component={RosterHistoryScreen}
           options={{ headerShown: false }}
         />
         <Stack.Screen
