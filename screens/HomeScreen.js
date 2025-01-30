@@ -8,6 +8,7 @@ import {
   FlatList,
   Pressable,
   ScrollView,
+  Linking,
 } from "react-native";
 import Icon from "react-native-remix-icon";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -49,21 +50,36 @@ export default function HomeScreen({ navigation }) {
         </View>
 
         {/* Profile Section */}
-        <UserProfile />
+        <UserProfile navigation={navigation} />
         <ScrollView
           showsVerticalScrollIndicator={false}
           style={{ backgroundColor: "#fff" }}
         >
           {/* Work Hours */}
           <View style={styles.hoursContainer}>
-            <Text style={styles.hoursText}>
-              You have worked 15 hrs this week
-            </Text>
-            <Text style={styles.todayText}>Today: 4hr:27min</Text>
+            <Pressable
+              onPress={() => navigation.navigate("History")}
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Text style={styles.hoursText}>
+                You have worked 15 hrs this week
+              </Text>
+              <Text
+                style={{ fontSize: 18, paddingHorizontal: 4, color: "#f1f1f1" }}
+              ></Text>
+              <Text style={styles.todayText}>Today: 4hr:27min</Text>
+            </Pressable>
           </View>
 
           {/* Disturbance Message */}
           <Pressable
+            onPress={() => {
+              Linking.openURL("https://www.fairwork.gov.au/");
+            }}
             style={({ pressed }) => [
               {
                 backgroundColor: pressed ? "#DCF1F9" : "f8f8f8",
@@ -89,8 +105,8 @@ export default function HomeScreen({ navigation }) {
               horizontal={false}
               data={workspaceItems}
               numColumns={3}
-              ListHeaderComponent={()=><View></View>}
-              ListFooterComponent={()=><View></View>}
+              ListHeaderComponent={() => <View></View>}
+              ListFooterComponent={() => <View></View>}
               keyExtractor={(item) => item.id}
               renderItem={({ item }) => (
                 <Pressable

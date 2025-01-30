@@ -6,16 +6,38 @@ import {
   FlatList,
   Pressable,
   ScrollView,
-  TextInput,
+  ToastAndroid,
 } from "react-native";
+import DateTimePicker from "react-native-ui-datepicker";
+import dayjs from "dayjs";
 import Icon from "react-native-remix-icon";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import PressableBack from "../components/PressableBack";
 import UserProfile from "../components/partials/UserProfile";
 import AppButton from "../components/buttons/AppButton";
 import Modal from "react-native-modal";
+import { Dropdown } from "react-native-element-dropdown";
 
 export default function LeaveScreen({ navigation }) {
+  const showToast = () => {
+    ToastAndroid.showWithGravity(
+      "Leave request submitted",
+      ToastAndroid.LONG,
+      ToastAndroid.TOP
+    );
+  };
+  const [value, setValue] = useState(null);
+  const [isFocus, setIsFocus] = useState(false);
+  const renderLabel = () => {
+    if (value || isFocus) {
+      return (
+        <Text style={[styles.label, isFocus && { color: "blue" }]}>
+          Dropdown label
+        </Text>
+      );
+    }
+    return null;
+  };
   const [modalVisible, setModalVisible] = useState(false);
   const leaves = [
     {
@@ -49,6 +71,26 @@ export default function LeaveScreen({ navigation }) {
     console.log("opening");
   };
 
+  const data = [
+    { label: "Sick", value: "1" },
+    { label: "Annual", value: "2" },
+    { label: "Parental", value: "3" },
+    { label: "Compassionate", value: "4" },
+    { label: "Service", value: "5" },
+    { label: "Unpaid", value: "6" },
+    { label: "Other", value: "8" },
+  ];
+
+  const [date, setDate] = useState(dayjs());
+
+  const [datePicker, setDatePicker] = useState(false);
+  const [dateBtn, setDateBtn] = useState(true);
+
+  const pickDate = () => {
+    setDatePicker(true);
+    setDateBtn(false);
+  };
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
@@ -64,7 +106,7 @@ export default function LeaveScreen({ navigation }) {
         </View>
 
         {/* Profile Section */}
-        <UserProfile />
+        <UserProfile navigation={navigation}/>
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* Workspace */}
           <View style={styles.appSection}>
@@ -72,7 +114,9 @@ export default function LeaveScreen({ navigation }) {
               <Text style={styles.sectionTitle}>My Leave</Text>
               <Text style={styles.rosterDate}>2024</Text>
             </View>
-            <Text style={{fontSize:12, color:'#666', marginBottom: 15}}>You have applied 4 leave request this year</Text>
+            <Text style={{ fontSize: 12, color: "#666", marginBottom: 15 }}>
+              You have applied 4 leave request this year
+            </Text>
 
             <FlatList
               scrollEnabled={false}
@@ -97,7 +141,9 @@ export default function LeaveScreen({ navigation }) {
                       </Text>
                     </View>
                     <View>
-                      <View style={item.isPaid ? styles.isPaid: styles.isUnpiad}></View>
+                      <View
+                        style={item.isPaid ? styles.isPaid : styles.isUnpiad}
+                      ></View>
                     </View>
                   </View>
                 </Pressable>
@@ -116,22 +162,98 @@ export default function LeaveScreen({ navigation }) {
             <View>
               <View style={styles.inputWrap}>
                 <Text style={styles.inputLabel}>Leave Type</Text>
-                <TextInput style={styles.input} placeholder="Sick Leave" />
-              </View>
-              <View style={styles.inputWrapFlex}>
-                <View style={{ flex: 1 }}>
-                  <Text style={styles.inputLabel}>From</Text>
-                  <TextInput style={[styles.input]} placeholder="Jan 2 2024" />
+                <View>
+                  <Dropdown
+                    style={[
+                      styles.dropdown,
+                      isFocus && { borderColor: "blue" },
+                    ]}
+                    placeholderStyle={styles.placeholderStyle}
+                    selectedTextStyle={styles.selectedTextStyle}
+                    inputSearchStyle={styles.inputSearchStyle}
+                    iconStyle={styles.iconStyle}
+                    data={data}
+                    maxHeight={300}
+                    labelField="label"
+                    valueField="value"
+                    placeholder={!isFocus ? "Select item" : "..."}
+                    searchPlaceholder="Search..."
+                    value={value}
+                    onFocus={() => setIsFocus(true)}
+                    onBlur={() => setIsFocus(false)}
+                    onChange={(item) => {
+                      setValue(item.value);
+                      setIsFocus(false);
+                    }}
+                  />
                 </View>
-                <View style={{ flex: 1 }}>
+              </View>
+              <View style={styles.inputWrap}>
+                <View>
+                  <Text style={styles.inputLabel}>Date</Text>
+                  {dateBtn ? (
+                    <Pressable
+                      onPress={() => {
+                        pickDate();
+                      }}
+                      style={({ pressed }) => [
+                        {
+                          backgroundColor: pressed ? "#f5f5f5" : "#f4f4f4",
+                        },
+                        styles.appButtonContainer,
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.appButtonText,
+                          { color: "#000", textAlign: "left" },
+                        ]}
+                      >
+                        Pick A Date
+                      </Text>
+                    </Pressable>
+                  ) : null}
+                  {datePicker ? (
+                    <View
+                      style={{
+                        backgroundColor: "#fff",
+                        borderRadius: 6,
+                        padding: 4,
+                        borderColor: "#f1f1f1",
+                        borderWidth: 1,
+                      }}
+                    >
+                      <DateTimePicker
+                        mode="single"
+                        minDate={Date()}
+                        date={date}
+                        onChange={(params) => setDate(params.date)}
+                      />
+                    </View>
+                  ) : null}
+                  {/* <DateTimePicker
+                    mode="single"
+                    date={date}
+                    onChange={(params) => setDate(params.date)}
+                  /> */}
+                  {/* <TextInput style={[styles.input]} placeholder="Jan 2 2024" /> */}
+                </View>
+              </View>
+              {/* <View style={styles.inputWrap}>
+                <View>
                   <Text style={styles.inputLabel}>To</Text>
                   <TextInput style={[styles.input]} placeholder="Jan 3 2024" />
                 </View>
-              </View>
+              </View> */}
               <View style={styles.inputWrapFlex}>
                 <View style={{ flex: 1 }}>
                   <Pressable
-                    onPress={() => setModalVisible(false)}
+                    onPress={() => {
+                      setValue(null);
+                      setModalVisible(false);
+                      setDatePicker(false);
+                      setDateBtn(true);
+                    }}
                     style={({ pressed }) => [
                       {
                         backgroundColor: pressed ? "#f5f5f5" : "#f4f4f4",
@@ -145,7 +267,13 @@ export default function LeaveScreen({ navigation }) {
                   </Pressable>
                 </View>
                 <View style={{ flex: 1 }}>
-                  <AppButton title={"Submit"} onPress={() => setModalVisible(false)}></AppButton>
+                  <AppButton
+                    title={"Submit"}
+                    onPress={() => {
+                      setModalVisible(false);
+                      showToast();
+                    }}
+                  ></AppButton>
                 </View>
               </View>
             </View>
@@ -247,7 +375,7 @@ const styles = StyleSheet.create({
     borderColor: "#f1f1f1",
     paddingVertical: 10,
     color: "#666",
-    height: 38,
+    height: 44,
     alignItems: "center",
     marginBottom: 15,
     borderRadius: 4,
@@ -259,7 +387,7 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   inputWrap: {
-    marginBottom: 10,
+    marginBottom: 20,
   },
   inputWrapFlex: {
     marginBottom: 10,
@@ -273,8 +401,8 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingVertical: 12,
     paddingHorizontal: 10,
-    minWidth:'48%',
-    textAlign:'center'
+    minWidth: "48%",
+    textAlign: "center",
   },
   appButtonText: {
     fontSize: 16,
@@ -284,16 +412,52 @@ const styles = StyleSheet.create({
     fontFamily: "Inter",
     //   textTransform: "uppercase"
   },
-  isPaid:{
-    width:8,
-    height:8,
-    backgroundColor:'#22789A',
-    borderRadius:50
-  },
-  isUnpiad:{
-    width:8,
-    height:8,
+  isPaid: {
+    width: 8,
+    height: 8,
+    backgroundColor: "#22789A",
     borderRadius: 50,
-    backgroundColor:'red'
-  }
+  },
+  isUnpiad: {
+    width: 8,
+    height: 8,
+    borderRadius: 50,
+    backgroundColor: "red",
+  },
+
+  // for dropdown
+  dropdown: {
+    height: 44,
+    backgroundColor: "#f8f8f8",
+    borderColor: "gray",
+    borderWidth: 0,
+    borderRadius: 4,
+    paddingHorizontal: 8,
+  },
+  icon: {
+    marginRight: 5,
+  },
+  label: {
+    position: "absolute",
+    backgroundColor: "white",
+    left: 22,
+    top: 8,
+    zIndex: 999,
+    paddingHorizontal: 8,
+    fontSize: 14,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
 });

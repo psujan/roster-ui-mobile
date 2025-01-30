@@ -23,7 +23,7 @@ export default function RosterIssueScreen({ navigation }) {
         </View>
 
         {/* Profile Section */}
-        <UserProfile />
+        <UserProfile navigation={navigation}/>
         <ScrollView showsVerticalScrollIndicator={false}>
 					<View><Text style={{fontSize:14, color:'#666'}}>2 work issues are reported</Text></View>
           {/* Workspace */}

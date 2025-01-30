@@ -95,7 +95,7 @@ export default function ProfileScreen({ navigation }) {
         </View>
 
         {/* Profile Section */}
-        <UserProfile />
+        <UserProfile navigation={navigation}/>
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* Workspace */}
           <View style={styles.appSection}>
