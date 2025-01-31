@@ -31,8 +31,12 @@ export default function HomeScreen({ navigation }) {
   ];
 
   const highlights = [
-    { id: "1", text: "3 Issues have been reported" },
-    { id: "2", text: "You have been added to the event team" },
+    { id: "1", text: "3 Issues have been reported", route: "Issues" },
+    {
+      id: "2",
+      text: "You have been added to ENV & ENG",
+      route: "Profile",
+    },
   ];
 
   return (
@@ -96,7 +100,21 @@ export default function HomeScreen({ navigation }) {
               Feeling Disturbed? Access Fair work
             </Text>
           </Pressable>
-
+           {/* Highlights */}
+           <View style={styles.appSection}>
+            <Text style={styles.sectionTitle}>Highlights</Text>
+            {highlights.map((highlight) => (
+              <TouchableOpacity
+                key={highlight.id}
+                style={styles.highlightItem}
+                onPress={() => navigation.navigate(highlight.route)}
+              >
+                <Text style={styles.highlightText}># {highlight.text}</Text>
+                <Icon name="external-link-line" size={20} color="#666" />
+              </TouchableOpacity>
+            ))}
+          </View>
+          
           {/* Workspace */}
           <View style={styles.appSection}>
             <Text style={styles.sectionTitle}>Workspace</Text>
@@ -125,16 +143,7 @@ export default function HomeScreen({ navigation }) {
             />
           </View>
 
-          {/* Highlights */}
-          <View style={styles.appSection}>
-            <Text style={styles.sectionTitle}>Highlights</Text>
-            {highlights.map((highlight) => (
-              <TouchableOpacity key={highlight.id} style={styles.highlightItem}>
-                <Text style={styles.highlightText}># {highlight.text}</Text>
-                <Icon name="external-link-line" size={20} color="#666" />
-              </TouchableOpacity>
-            ))}
-          </View>
+         
         </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>

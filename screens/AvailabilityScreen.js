@@ -7,6 +7,7 @@ import {
   Pressable,
   ScrollView,
   TextInput,
+  ToastAndroid,
 } from "react-native";
 import Modal from "react-native-modal";
 // import SelectDropdown from "react-native-select-dropdown";
@@ -16,9 +17,27 @@ import PressableBack from "../components/PressableBack";
 import UserProfile from "../components/partials/UserProfile";
 import AppButton from "../components/buttons/AppButton";
 import { useState } from "react";
+import { Dropdown } from "react-native-element-dropdown";
 
 export default function AvailabilityScreen({ navigation }) {
+  const showToast = () => {
+    ToastAndroid.showWithGravity(
+      "Availability Updated Successfully",
+      ToastAndroid.LONG,
+      ToastAndroid.TOP
+    );
+  };
   const [modalVisible, setModalVisible] = useState(false);
+  const day = [
+    { label: "Sun", value: "1" },
+    { label: "Mon", value: "2" },
+    { label: "Tue", value: "3" },
+    { label: "Wed", value: "4" },
+    { label: "Thu", value: "5" },
+    { label: "Fri", value: "6" },
+    { label: "Sat", value: "7" },
+  ];
+
   const roster = [
     {
       id: 1,
@@ -42,6 +61,8 @@ export default function AvailabilityScreen({ navigation }) {
     },
   ];
 
+  const [dayValue, setDayValue] = useState(null);
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={styles.container}>
@@ -57,7 +78,7 @@ export default function AvailabilityScreen({ navigation }) {
         </View>
 
         {/* Profile Section */}
-        <UserProfile navigation={navigation}/>
+        <UserProfile navigation={navigation} />
         <ScrollView showsVerticalScrollIndicator={false}>
           {/* Workspace */}
           <View style={styles.appSection}>
@@ -104,19 +125,35 @@ export default function AvailabilityScreen({ navigation }) {
           </View>
           <Modal isVisible={modalVisible}>
             <View style={styles.modalWrap}>
-            <View
+              <View
                 style={{ flexDirection: "row", gap: 10, marginVertical: 10 }}
               >
-                <Text style={{minWidth:'48%'}}>Day</Text>
+                <Text style={{ minWidth: "48%" }}>Day</Text>
                 <Text>Time</Text>
               </View>
               <View
                 style={{ flexDirection: "row", gap: 10, marginVertical: 10 }}
               >
-                <TextInput placeholder="Sun" style={styles.input} />
+                <Dropdown
+                  style={[styles.dropdown]}
+                  placeholderStyle={styles.placeholderStyle}
+                  selectedTextStyle={styles.selectedTextStyle}
+                  inputSearchStyle={styles.inputSearchStyle}
+                  iconStyle={styles.iconStyle}
+                  data={day}
+                  maxHeight={300}
+                  labelField="label"
+                  valueField="value"
+                  placeholder={"Select day"}
+                  searchPlaceholder="Search..."
+                  value={dayValue}
+                  onChange={(item) => {
+                    setDayValue(item.value);
+                  }}
+                />
                 <TextInput placeholder="6am- 2pm" style={styles.input} />
               </View>
-              <View
+              {/* <View
                 style={{ flexDirection: "row", gap: 10, marginVertical: 10 }}
               >
                 <TextInput placeholder="Mon" style={styles.input} />
@@ -138,7 +175,7 @@ export default function AvailabilityScreen({ navigation }) {
                 style={{ flexDirection: "row", gap: 10, marginVertical: 10 }}
               >
                 <Pressable
-                  onPress={()=>setModalVisible(false)}
+                  onPress={() => setModalVisible(false)}
                   style={({ pressed }) => [
                     {
                       backgroundColor: pressed ? "#f5f5f5" : "#f4f4f4",
@@ -146,10 +183,43 @@ export default function AvailabilityScreen({ navigation }) {
                     styles.appButtonContainer,
                   ]}
                 >
-                  <Text style={[styles.appButtonText , {color:'#000'}]}>Cancel</Text>
+                  <Text style={[styles.appButtonText, { color: "#000" }]}>
+                    Cancel
+                  </Text>
                 </Pressable>
                 <Pressable
                   onPress={() => setModalVisible(false)}
+                  style={({ pressed }) => [
+                    {
+                      backgroundColor: pressed ? "#005678" : "#22789A",
+                    },
+                    styles.appButtonContainer,
+                  ]}
+                >
+                  <Text style={styles.appButtonText}>Update</Text>
+                </Pressable>
+              </View> */}
+              <View
+                style={{ flexDirection: "row", gap: 10, marginVertical: 10 }}
+              >
+                <Pressable
+                  onPress={() => setModalVisible(false)}
+                  style={({ pressed }) => [
+                    {
+                      backgroundColor: pressed ? "#f5f5f5" : "#f4f4f4",
+                    },
+                    styles.appButtonContainer,
+                  ]}
+                >
+                  <Text style={[styles.appButtonText, { color: "#000" }]}>
+                    Cancel
+                  </Text>
+                </Pressable>
+                <Pressable
+                  onPress={() => {
+                    showToast();
+                    setModalVisible(false);
+                  }}
                   style={({ pressed }) => [
                     {
                       backgroundColor: pressed ? "#005678" : "#22789A",
@@ -270,8 +340,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#F1F1F1",
     minWidth: "48%",
   },
-  cancelBtn:{
-    color:'#000'
+  cancelBtn: {
+    color: "#000",
   },
   appButtonContainer: {
     //elevation: 1,
@@ -280,7 +350,7 @@ const styles = StyleSheet.create({
     borderRadius: 4,
     paddingVertical: 12,
     paddingHorizontal: 10,
-    minWidth:'48%'
+    minWidth: "48%",
   },
   appButtonText: {
     fontSize: 16,
@@ -289,5 +359,14 @@ const styles = StyleSheet.create({
     alignSelf: "center",
     fontFamily: "Inter",
     //   textTransform: "uppercase"
+  },
+  dropdown: {
+    height: 44,
+    backgroundColor: "#f8f8f8",
+    borderColor: "gray",
+    borderWidth: 0,
+    borderRadius: 4,
+    paddingHorizontal: 8,
+    width: "44%",
   },
 });

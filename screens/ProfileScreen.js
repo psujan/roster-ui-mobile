@@ -40,6 +40,10 @@ export default function ProfileScreen({ navigation }) {
       name: "Role",
       value: "Maintenance Associate",
     },
+    {
+      name: "Team",
+      value: "ENVIRONMENT & ENG",
+    },
   ];
 
   const bankingDetails = [
