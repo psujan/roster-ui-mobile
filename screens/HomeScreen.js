@@ -97,7 +97,7 @@ export default function HomeScreen({ navigation }) {
             ]}
           >
             <Text style={styles.disturbanceMessage}>
-              Feeling Disturbed? Access Fair work
+              Having Workplace Issues? Access Fair work
             </Text>
           </Pressable>
            {/* Highlights */}
